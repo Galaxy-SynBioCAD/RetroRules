@@ -1,0 +1,37 @@
+<tool id="retrorules" name="RetroRules" version="0.1">
+  <description>RetroRules reaction rules</description>
+  <requirements>
+    <container type="docker">brsynth/retrorules-standalone</container>
+  </requirements>
+  <stdio>
+    <regex match="WARNING:" level="warning" />
+	  <regex match="ERROR:" level="error" />
+  </stdio>
+  <command detect_errors="exit_code"><![CDATA[
+    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters'
+  ]]></command>
+  <inputs>
+    <param name="rule_type" type="select" label="Rules Type">
+      <option value="retro" selected="True">Retro</option>
+      <option value="forward">Forward</option>
+      <option value="all">All</option>
+    </param>
+    <param name="diameters" type="select" display="checkboxes" multiple="True" label="Select the diameters of the reactions rules">
+      <option selected="true" value="2">2</option>
+      <option selected="true" value="4">4</option>
+      <option selected="true" value="6">6</option>
+      <option selected="true" value="8">8</option>
+      <option selected="true" value="10">10</option>
+      <option selected="true" value="12">12</option>
+      <option selected="true" value="14">14</option>
+      <option selected="true" value="16">16</option>
+    </param>
+  </inputs>
+  <outputs>
+		<data name="output" format="csv" label="rules">
+    </data>
+  </outputs>
+  <help>
+    Should really write somehtinf usefull here
+  </help>
+</tool>
