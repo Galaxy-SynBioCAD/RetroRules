@@ -1,8 +1,21 @@
+#!/usr/bin/env python3
+"""
+Created on September 21 2019
+
+@author: Melchior du Lac
+@description: Return RetroRules
+
+"""
+
 import shutil
 import logging
 import csv
+import io
+import shutil
+import tarfile
+import tempfile
 
-def passRules(rule_type, output, diameters):
+def passRules(rule_type, output, diameters, isTar=False):
     rule_file = None
     if rule_type=='all':
         rule_file = '/home/rules_rall_rp2.csv' 
@@ -13,17 +26,27 @@ def passRules(rule_type, output, diameters):
     else:
         logging.error('Cannot detect input: '+str(rule_type))
         return False
-    #### filter the rules by the diameters
-    with open(rule_file, 'r') as rf:
-        with open(output, 'w') as o:
-            rf_csv = csv.reader(rf)
-            o_csv = csv.writer(o, delimiter=',', quotechar='"')
-            o_csv.writerow(next(rf_csv))
-            for row in rf_csv:
-                try:
-                    if int(row[4]) in diameters:
-                        o_csv.writerow(row)
-                except ValueError:
-                    logging.error('Cannot convert diameter to integer: '+str(row[4]))
-                    return False
+    ##### create temp file to write ####
+    with tempfile.TemporaryDirectory() as tmpOutputFolder:
+        outfile_path = tmpOutputFolder+'/tmp_rules.csv'
+        with open(rule_file, 'r') as rf:
+            with open(outfile_path, 'w') as o:
+                rf_csv = csv.reader(rf)
+                o_csv = csv.writer(o, delimiter=',', quotechar='"')
+                o_csv.writerow(next(rf_csv))
+                for row in rf_csv:
+                    try:
+                        if int(row[4]) in diameters:
+                            o_csv.writerow(row)
+                    except ValueError:
+                        logging.error('Cannot convert diameter to integer: '+str(row[4]))
+                        return False
+        if isTar:
+            with tarfile.open(output, mode='w:xz') as ot:
+                info = tarfile.TarInfo('Rules.csv')
+                info.size = os.path.getsize(outfile_path)
+                ot.addfile(tarinfo=info, fileobj=open(sbml_path, 'rb'))
+        else:
+            shutil.copy(outfile_path, output)
     return True
+
