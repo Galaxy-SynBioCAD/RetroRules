@@ -41,12 +41,15 @@ def passRules(rule_type, output, diameters, isTar=False):
                     except ValueError:
                         logging.error('Cannot convert diameter to integer: '+str(row[4]))
                         return False
-        if isTar:
+        if isTar=='True' or isTar=='true' or isTar==True:
             with tarfile.open(output, mode='w:xz') as ot:
                 info = tarfile.TarInfo('Rules.csv')
                 info.size = os.path.getsize(outfile_path)
                 ot.addfile(tarinfo=info, fileobj=open(sbml_path, 'rb'))
-        else:
+        elif isTar=='False' or isTar=='false' or isTar==False:
             shutil.copy(outfile_path, output)
+        else:
+            logging.error('Cannot detect the isTar input: '+str(params.isTar))
+            return False
     return True
 
