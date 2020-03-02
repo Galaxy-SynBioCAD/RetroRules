@@ -11,11 +11,12 @@ import shutil
 import logging
 import csv
 import io
+import os
 import shutil
 import tarfile
 import tempfile
 
-def passRules(rule_type, output, diameters, isTar=False):
+def passRules(rule_type, output, diameters, output_format='csv'):
     rule_file = None
     if rule_type=='all':
         rule_file = '/home/rules_rall_rp2.csv' 
@@ -41,15 +42,15 @@ def passRules(rule_type, output, diameters, isTar=False):
                     except ValueError:
                         logging.error('Cannot convert diameter to integer: '+str(row[4]))
                         return False
-        if isTar=='True' or isTar=='true' or isTar==True:
+        if output_format=='csv':
             with tarfile.open(output, mode='w:xz') as ot:
                 info = tarfile.TarInfo('Rules.csv')
                 info.size = os.path.getsize(outfile_path)
-                ot.addfile(tarinfo=info, fileobj=open(sbml_path, 'rb'))
-        elif isTar=='False' or isTar=='false' or isTar==False:
+                ot.addfile(tarinfo=info, fileobj=open(outfile_path, 'rb'))
+        elif output_format=='tar':
             shutil.copy(outfile_path, output)
         else:
-            logging.error('Cannot detect the isTar input: '+str(params.isTar))
+            logging.error('Cannot detect the output_format: '+str(output_format))
             return False
     return True
 
