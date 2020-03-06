@@ -47,7 +47,7 @@ def main(rule_type, diameters, output_format, output):
                 auto_remove=True, 
                 detach=False, 
                 volumes={tmpOutputFolder+'/': {'bind': '/home/tmp_output', 'mode': 'rw'}})
-        shutil.copy(tmpOutputFolder+'/output.dat', os.getcwd()+'/'+output)
+        shutil.copy(tmpOutputFolder+'/output.dat', output)
 
 
 ##
