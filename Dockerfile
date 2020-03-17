@@ -15,4 +15,4 @@ RUN wget https://retrorules.org/dl/preparsed/rr02/rp2/hs -O /home/rules_rall_rp2
     rm /home/rules_rall_rp2.tar.gz
 
 COPY rpTool.py /home/
-COPY galaxy_tool/tool_RetroRules.py /home/
+COPY tool_RetroRules.py /home/
