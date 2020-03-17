@@ -19,7 +19,7 @@ import docker
 #
 def main(rule_type, diameters, output_format, output):
     docker_client = docker.from_env()
-    image_str = 'brsynth/retrorules-standalone:dev'
+    image_str = 'brsynth/retrorules-standalone'
     try:
         image = docker_client.images.get(image_str)
     except docker.errors.ImageNotFound:

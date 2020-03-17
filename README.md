@@ -2,7 +2,7 @@
 
 * Docker image: [brsynth/retrorules-standalone](https://hub.docker.com/r/brsynth/retrorules-standalone)
 
-Retrieve the reaction rules from retrorules.org
+Retrieve the reaction rules from [RetroRules](https://retrorules.org/)
 
 ## Input
 
@@ -17,7 +17,7 @@ Retrieve the reaction rules from retrorules.org
 ## Building the docker
 
 ```
-docker build -t brsynth/retrorules-standalone:dev .
+docker build -t brsynth/retrorules-standalone .
 ```
 
 ### Running the test
