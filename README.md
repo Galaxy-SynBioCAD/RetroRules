@@ -1,4 +1,4 @@
-# RetroRules docker
+# RetroRules
 
 * Docker image: [brsynth/retrorules-standalone](https://hub.docker.com/r/brsynth/retrorules-standalone)
 
@@ -14,6 +14,10 @@ Retrieve the reaction rules from [RetroRules](https://retrorules.org/)
 
 * **-output**: (string): Path of the output file. Either a TAR (containing a CSV) or CSV list of reaction rules that are in a RetroPath2.0 friendly format 
 
+## Dependencies
+
+* Base docker image: [python:3.7](https://hub.docker.com/layers/python/library/python/3.7/images/sha256-af8fc40f758a1847b87db6c0239f2a5fb70622adc95a68bf1b736fa57ad332bc?context=explore)
+
 ## Building the docker
 
 ```
@@ -27,10 +31,6 @@ To run the test, run the following command:
 ```
 python run.py -rule_type retro -output rules.tar -diameters 2,8 -output_format tar
 ```
-
-## Dependencies
-
-* Base docker image: [python:3.7](https://hub.docker.com/layers/python/library/python/3.7/images/sha256-af8fc40f758a1847b87db6c0239f2a5fb70622adc95a68bf1b736fa57ad332bc?context=explore)
 
 ## Contributing
 
