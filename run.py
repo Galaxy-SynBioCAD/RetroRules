@@ -17,7 +17,7 @@ import docker
 ##
 #
 #
-def main(rule_type, diameters, output_format, output):
+def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16'):
     docker_client = docker.from_env()
     image_str = 'brsynth/retrorules-standalone'
     try:
@@ -42,15 +42,17 @@ def main(rule_type, diameters, output_format, output):
                    output_format,
                    '-output',
                    '/home/tmp_output/output.dat']
-        docker_client.containers.run(image_str, 
-                                     command, 
-                                     detach=True,
-                                     stderr=True,
-                                     volumes={tmpOutputFolder+'/': {'bind': '/home/tmp_output', 'mode': 'rw'}})
+        container = docker_client.containers.run(image_str, 
+                                                 command, 
+                                                 detach=True,
+                                                 stderr=True,
+                                                 volumes={tmpOutputFolder+'/': {'bind': '/home/tmp_output', 'mode': 'rw'}})
         container.wait()
         err = container.logs(stdout=False, stderr=True)
-        print(err)
-        shutil.copy(tmpOutputFolder+'/output.dat', output_sink)
+        err_str = err.decode('utf-8')
+        print(err_str)
+        if not 'ERROR' in err_str:
+            shutil.copy(tmpOutputFolder+'/output.dat', output)
         container.remove()
 
 
@@ -59,9 +61,9 @@ def main(rule_type, diameters, output_format, output):
 #
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Python wrapper to add cofactors to generate rpSBML collection')
-    parser.add_argument('-rule_type', type=str)
+    parser.add_argument('-rule_type', type=str, default='retro')
     parser.add_argument('-output', type=str)
     parser.add_argument('-diameters', type=str, default='2,4,6,8,10,12,14,16')
-    parser.add_argument('-output_format', type=str)
+    parser.add_argument('-output_format', type=str, default='tar')
     params = parser.parse_args()
-    main(params.rule_type, params.diameters, params.output_format, params.output)
+    main(params.output, params.output_format, params.rule_type, params.diameters)
