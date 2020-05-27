@@ -43,7 +43,7 @@ def passRules(rule_type, output, diameters, output_format='csv'):
                         logging.error('Cannot convert diameter to integer: '+str(row[4]))
                         return False
         if output_format=='tar':
-            with tarfile.open(output, mode='w:xz') as ot:
+            with tarfile.open(output, mode='w:gz') as ot:
                 info = tarfile.TarInfo('Rules.csv')
                 info.size = os.path.getsize(outfile_path)
                 ot.addfile(tarinfo=info, fileobj=open(outfile_path, 'rb'))
