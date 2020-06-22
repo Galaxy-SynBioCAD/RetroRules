@@ -1,0 +1,108 @@
+<tool id="retrorules" name="RetroRules" version="0.1">
+  <description>Generate RetroPath2.0 reaction rules input</description>
+  <requirements>
+    <container type="docker">brsynth/retrorules-standalone:dev</container>
+  </requirements>
+  <stdio>
+    <regex match="WARNING:" level="warning" />
+	  <regex match="ERROR:" level="error" />
+  </stdio>
+  <command detect_errors="exit_code"><![CDATA[
+    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format'
+  ]]></command>
+  <inputs>
+    <param name="output_format" type="select" label="Output format">
+      <option value="csv" selected="True">CSV</option>
+      <option value="tar">TAR</option>
+    </param>
+    <param name="rule_type" type="select" label="Rules type">
+      <option value="retro" selected="True">Retro</option>
+      <option value="forward">Forward</option>
+      <option value="all">All</option>
+    </param>
+    <param name="diameters" type="select" display="checkboxes" multiple="True" label="Select the diameters of the reactions rules">
+      <option selected="true" value="2">2</option>
+      <option selected="true" value="4">4</option>
+      <option selected="true" value="6">6</option>
+      <option selected="true" value="8">8</option>
+      <option selected="true" value="10">10</option>
+      <option selected="true" value="12">12</option>
+      <option selected="true" value="14">14</option>
+      <option selected="true" value="16">16</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data name="output" format="tar" label="RetroRules" >
+      <change_format>
+        <when input="output_format" value="csv" format="csv"/>
+      </change_format>
+    </data>
+  </outputs>
+  <help><![CDATA[
+RetroRules
+==========
+
+
+Retrieve the reaction rules from `RetroRules <https://retrorules.org/>`_
+
+Input
+-----
+
+Required:
+
+* **-rule_type**\ : (string) Valid options: retro, forward, all. Return the rules that are in reverse, forward or both direction
+* **-diamters**\ : (integer list): Valid options: 2, 4, 6, 8, 10, 12, 14, 16. The diameter of the rules to return
+* **-output_format**\ : (string) Valid options: tar, csv. Format output
+
+Ouput
+-----
+
+
+* **-output**\ : (string): Path of the output file. Either a TAR (containing a CSV) or CSV list of reaction rules that are in a RetroPath2.0 friendly format 
+
+Project Links
+---------------------
+
+* `GitHub <https://github.com/Galaxy-SynBioCAD/RetroRules>`_
+* `Docker <https://hub.docker.com/r/brsynth/retrorules>`_
+
+
+Version
+-------
+
+0.1
+
+Authors
+-------
+
+
+* **Thomas Duigou**
+* Melchior du Lac
+
+License
+-------
+
+`MIT <https://raw.githubusercontent.com/Galaxy-SynBioCAD/RetroRules/standalone-dev/LICENSE>`_
+
+Acknowledgments
+---------------
+
+
+* Joan Hérisson
+
+]]></help>
+  <citations>
+    <citation type="bibtex">
+@article{duigou2019retrorules,
+  title={RetroRules: a database of reaction rules for engineering biology},
+  author={Duigou, Thomas and du Lac, Melchior and Carbonell, Pablo and Faulon, Jean-Loup},
+  journal={Nucleic acids research},
+  volume={47},
+  number={D1},
+  pages={D1229--D1235},
+  year={2019},
+  publisher={Oxford University Press}
+}
+    </citation>
+  </citations>
+</tool>
