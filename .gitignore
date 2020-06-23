@@ -1,2 +1,6 @@
 test/
 *.swp
+LICENSE
+__pycache__/
+basf/
+*.tar
