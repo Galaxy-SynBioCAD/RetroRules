@@ -8,7 +8,7 @@
 	  <regex match="ERROR:" level="error" />
   </stdio>
   <command detect_errors="exit_code"><![CDATA[
-    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format' -rules_file '$rules_file'
+    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format' -rules_file '$adv.rulesfile.rules_file' -input_format '$adv.rulesfile.format'
   ]]></command>
   <inputs>
     <param name="output_format" type="select" label="Output format">
@@ -31,7 +31,18 @@
       <option selected="true" value="16">16</option>
     </param>
     <section name="adv" title="Advanced Options" expanded="false">
-      <param name="rules_file" type="data" optional="true" multiple="false" format="csv" label="Reaction Rules" />
+      <conditional name="rulesfile">
+        <param name="format" type="select" label="Rules input format">
+          <option value="tsv" type="text" selected="true">TSV</option>
+          <option value="csv" type="text">CSV</option>
+        </param>
+        <when value="csv">
+          <param name="rules_file" type="data" format="csv" optional="true" multiple="false" label="Rules File" />
+        </when>
+        <when value="tsv">
+          <param name="rules_file" type="data" optional="true" multiple="false" format="tsv" label="Rules File" />
+        </when>
+      </conditional>
     </section>  
   </inputs>
   <outputs>

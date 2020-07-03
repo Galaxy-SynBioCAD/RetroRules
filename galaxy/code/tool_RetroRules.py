@@ -27,6 +27,7 @@ if __name__ == "__main__":
     parser.add_argument('-output', type=str)
     parser.add_argument('-diameters', type=str, default='2,4,6,8,10,12,14,16')
     parser.add_argument('-output_format', type=str, default='csv', choices=['csv', 'tar'])
+    parser.add_argument('-input_format', type=str, default='csv', choices=['csv', 'tsv'])
     params = parser.parse_args()
     try:
         diameters = [int(i) for i in params.diameters.split(',')]
@@ -40,6 +41,6 @@ if __name__ == "__main__":
         logging.error('Invalid diamter entry. Must be int of either 2,4,6,8,10,12,14,16')
         exit(1)
     if params.rules_file=='None' or params.rules_file==None:
-        rpTool.passRules(params.rule_type, params.output, valid_diameters, params.output_format)
+        rpTool.passRules(params.output, params.rule_type, valid_diameters, params.output_format)
     else:
-        rpTool.parseRules(params.rules_file, params.output, valid_diameters, params.output_format)
+        rpTool.parseRules(params.rules_file, params.output, params.rule_type, valid_diameters, params.input_format, params.output_format)
