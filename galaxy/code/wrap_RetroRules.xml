@@ -1,5 +1,5 @@
 <tool id="retrorules" name="RetroRules" version="0.1">
-  <description>Generate RetroPath2.0 reaction rules input</description>
+  <description>Generate RetroPath2.0 reaction rules</description>
   <requirements>
     <container type="docker">brsynth/retrorules-standalone</container>
   </requirements>
@@ -8,7 +8,7 @@
 	  <regex match="ERROR:" level="error" />
   </stdio>
   <command detect_errors="exit_code"><![CDATA[
-    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format'
+    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format' -rules_file '$rules_file'
   ]]></command>
   <inputs>
     <param name="output_format" type="select" label="Output format">
@@ -30,6 +30,9 @@
       <option selected="true" value="14">14</option>
       <option selected="true" value="16">16</option>
     </param>
+    <section name="adv" title="Advanced Options" expanded="false">
+      <param name="rules_file" type="data" optional="true" multiple="false" format="csv" label="Reaction Rules" />
+    </section>  
   </inputs>
   <outputs>
     <data name="output" format="tar" label="RetroRules" >

@@ -54,3 +54,34 @@ def passRules(rule_type, output, diameters, output_format='csv'):
             return False
     return True
 
+## Parse the rules if a user inputs it as a file
+#
+#
+def parseRules(rule_file, output, diameters, output_format='csv'):
+    ##### create temp file to write ####
+    with tempfile.TemporaryDirectory() as tmpOutputFolder:
+        outfile_path = tmpOutputFolder+'/tmp_rules.csv'
+        with open(rule_file, 'r') as rf:
+            with open(outfile_path, 'w') as o:
+                rf_csv = csv.reader(rf)
+                o_csv = csv.writer(o, delimiter=',', quotechar='"')
+                o_csv.writerow(next(rf_csv))
+                for row in rf_csv:
+                    try:
+                        if int(row[4]) in diameters:
+                            o_csv.writerow(row)
+                    except ValueError:
+                        logging.error('Cannot convert diameter to integer: '+str(row[4]))
+                        return False
+        if output_format=='tar':
+            with tarfile.open(output, mode='w:gz') as ot:
+                info = tarfile.TarInfo('Rules.csv')
+                info.size = os.path.getsize(outfile_path)
+                ot.addfile(tarinfo=info, fileobj=open(outfile_path, 'rb'))
+        elif output_format=='csv':
+            shutil.copy(outfile_path, output)
+        else:
+            logging.error('Cannot detect the output_format: '+str(output_format))
+            return False
+    return True
+
