@@ -17,7 +17,7 @@ import docker
 ##
 #
 #
-def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16'):
+def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16', rules_file='None', input_format='csv'):
     docker_client = docker.from_env()
     image_str = 'brsynth/retrorules-standalone'
     try:
@@ -35,11 +35,15 @@ def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,1
     with tempfile.TemporaryDirectory() as tmpOutputFolder:
         command = ['/home/tool_RetroRules.py',
                    '-rule_type',
-                   rule_type,
+                   str(rule_type),
+                   '-rules_file',
+                   str(rules_file),
                    '-diameters',
-                   diameters,
+                   str(diameters),
                    '-output_format',
-                   output_format,
+                   str(output_format),
+                   '-input_format',
+                   str(input_format),
                    '-output',
                    '/home/tmp_output/output.dat']
         container = docker_client.containers.run(image_str, 
@@ -61,9 +65,11 @@ def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,1
 #
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Python wrapper to add cofactors to generate rpSBML collection')
-    parser.add_argument('-rule_type', type=str, default='retro')
+    parser.add_argument('-rule_type', type=str, default='all', choices=['all', 'forward', 'retro'])
+    parser.add_argument('-rules_file', type=str, default='None')
     parser.add_argument('-output', type=str)
     parser.add_argument('-diameters', type=str, default='2,4,6,8,10,12,14,16')
-    parser.add_argument('-output_format', type=str, default='tar')
+    parser.add_argument('-output_format', type=str, default='csv', choices=['csv', 'tar'])
+    parser.add_argument('-input_format', type=str, default='csv', choices=['csv', 'tsv'])
     params = parser.parse_args()
-    main(params.output, params.output_format, params.rule_type, params.diameters)
+    main(params.output, params.output_format, params.rule_type, params.diameters, params.rules_file, params.input_format)
