@@ -107,7 +107,7 @@ def parseRules(rule_file, output, rule_type='all', diameters=[2,4,6,8,10,12,14,1
             with open(rule_file, 'r') as rf:
                 with open(outfile_path, 'w') as o:
                     rf_csv = csv.reader(rf)
-                    o_csv = csv.writer(o, delimiter=',', quotechar='"')
+                    o_csv = csv.writer(o, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
                     o_csv.writerow(next(rf_csv))
                     for row in rf_csv:
                         try:

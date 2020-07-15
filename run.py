@@ -33,19 +33,35 @@ def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,1
     #create a temporary folder to make the connection between the 
     #docker and the local files
     with tempfile.TemporaryDirectory() as tmpOutputFolder:
-        command = ['/home/tool_RetroRules.py',
-                   '-rule_type',
-                   str(rule_type),
-                   '-rules_file',
-                   str(rules_file),
-                   '-diameters',
-                   str(diameters),
-                   '-output_format',
-                   str(output_format),
-                   '-input_format',
-                   str(input_format),
-                   '-output',
-                   '/home/tmp_output/output.dat']
+        if os.path.exists(rules_file):
+            shutil.copy(rules_rall, tmpOutputFolder+'/rules.dat')
+            command = ['/home/tool_RetroRules.py',
+                       '-rule_type',
+                       str(rule_type),
+                       '-rules_file',
+                       '/home/tmp_output/rules.dat',
+                       '-diameters',
+                       str(diameters),
+                       '-output_format',
+                       str(output_format),
+                       '-input_format',
+                       str(input_format),
+                       '-output',
+                       '/home/tmp_output/output.dat']
+        else:
+            command = ['/home/tool_RetroRules.py',
+                       '-rule_type',
+                       str(rule_type),
+                       '-rules_file',
+                       'None',
+                       '-diameters',
+                       str(diameters),
+                       '-output_format',
+                       str(output_format),
+                       '-input_format',
+                       str(input_format),
+                       '-output',
+                       '/home/tmp_output/output.dat']
         container = docker_client.containers.run(image_str, 
                                                  command, 
                                                  detach=True,
