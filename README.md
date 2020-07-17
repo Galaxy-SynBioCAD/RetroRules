@@ -21,7 +21,7 @@ Retrieve the reaction rules from [RetroRules](https://retrorules.org/)
 ## Building the docker
 
 ```
-docker build -t brsynth/retrorules-standalone .
+docker build -t brsynth/retrorules-standalone:v1 .
 ```
 
 ### Running the test
