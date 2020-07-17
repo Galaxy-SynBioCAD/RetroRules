@@ -17,9 +17,9 @@ import docker
 ##
 #
 #
-def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16', rules_file='None', input_format='csv'):
+def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16'):
     docker_client = docker.from_env()
-    image_str = 'brsynth/retrorules-standalone'
+    image_str = 'brsynth/retrorules-standalone:v1'
     try:
         image = docker_client.images.get(image_str)
     except docker.errors.ImageNotFound:
@@ -33,35 +33,15 @@ def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,1
     #create a temporary folder to make the connection between the 
     #docker and the local files
     with tempfile.TemporaryDirectory() as tmpOutputFolder:
-        if os.path.exists(rules_file):
-            shutil.copy(rules_rall, tmpOutputFolder+'/rules.dat')
-            command = ['/home/tool_RetroRules.py',
-                       '-rule_type',
-                       str(rule_type),
-                       '-rules_file',
-                       '/home/tmp_output/rules.dat',
-                       '-diameters',
-                       str(diameters),
-                       '-output_format',
-                       str(output_format),
-                       '-input_format',
-                       str(input_format),
-                       '-output',
-                       '/home/tmp_output/output.dat']
-        else:
-            command = ['/home/tool_RetroRules.py',
-                       '-rule_type',
-                       str(rule_type),
-                       '-rules_file',
-                       'None',
-                       '-diameters',
-                       str(diameters),
-                       '-output_format',
-                       str(output_format),
-                       '-input_format',
-                       str(input_format),
-                       '-output',
-                       '/home/tmp_output/output.dat']
+        command = ['/home/tool_RetroRules.py',
+                   '-rule_type',
+                   str(rule_type),
+                   '-diameters',
+                   str(diameters),
+                   '-output_format',
+                   str(output_format),
+                   '-output',
+                   '/home/tmp_output/output.dat']
         container = docker_client.containers.run(image_str, 
                                                  command, 
                                                  detach=True,
@@ -82,10 +62,8 @@ def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,1
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Python wrapper to add cofactors to generate rpSBML collection')
     parser.add_argument('-rule_type', type=str, default='all', choices=['all', 'forward', 'retro'])
-    parser.add_argument('-rules_file', type=str, default='None')
     parser.add_argument('-output', type=str)
     parser.add_argument('-diameters', type=str, default='2,4,6,8,10,12,14,16')
     parser.add_argument('-output_format', type=str, default='csv', choices=['csv', 'tar'])
-    parser.add_argument('-input_format', type=str, default='csv', choices=['csv', 'tsv'])
     params = parser.parse_args()
-    main(params.output, params.output_format, params.rule_type, params.diameters, params.rules_file, params.input_format)
+    main(params.output, params.output_format, params.rule_type, params.diameters)

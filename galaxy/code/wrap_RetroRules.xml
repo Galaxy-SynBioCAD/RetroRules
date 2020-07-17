@@ -1,19 +1,19 @@
 <tool id="retrorules" name="RetroRules" version="0.1">
   <description>Generate RetroPath2.0 reaction rules</description>
   <requirements>
-    <container type="docker">brsynth/retrorules-standalone</container>
+    <container type="docker">brsynth/retrorules-standalone:v1</container>
   </requirements>
   <stdio>
     <regex match="WARNING:" level="warning" />
 	  <regex match="ERROR:" level="error" />
   </stdio>
   <command detect_errors="exit_code"><![CDATA[
-    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format' -rules_file '$adv.rulesfile.rules_file' -input_format '$adv.rulesfile.format'
+    '$__tool_directory__/tool_RetroRules.py' -rule_type '$rule_type' -output '$output' -diameters '$diameters' -output_format '$output_format'
   ]]></command>
   <inputs>
     <param name="output_format" type="select" label="Output format">
-      <option value="csv" selected="True">CSV</option>
-      <option value="tar">TAR</option>
+      <option value="csv" >CSV</option>
+      <option value="tar" selected="True">TAR</option>
     </param>
     <param name="rule_type" type="select" label="Rules type">
       <option value="retro" selected="True">Retro</option>
@@ -30,20 +30,6 @@
       <option selected="true" value="14">14</option>
       <option selected="true" value="16">16</option>
     </param>
-    <section name="adv" title="Advanced Options" expanded="false">
-      <conditional name="rulesfile">
-        <param name="format" type="select" label="Rules input format">
-          <option value="tsv" type="text" selected="true">TSV</option>
-          <option value="csv" type="text">CSV</option>
-        </param>
-        <when value="csv">
-          <param name="rules_file" type="data" format="csv" optional="true" multiple="false" label="Rules File" />
-        </when>
-        <when value="tsv">
-          <param name="rules_file" type="data" optional="true" multiple="false" format="tsv" label="Rules File" />
-        </when>
-      </conditional>
-    </section>  
   </inputs>
   <outputs>
     <data name="output" format="tar" label="RetroRules" >
