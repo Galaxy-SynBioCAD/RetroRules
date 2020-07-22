@@ -19,7 +19,7 @@ import docker
 #
 def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16', rules_file='None', input_format='csv'):
     docker_client = docker.from_env()
-    image_str = 'brsynth/retrorules-standalone'
+    image_str = 'brsynth/retrorules-standalone:v2'
     try:
         image = docker_client.images.get(image_str)
     except docker.errors.ImageNotFound:

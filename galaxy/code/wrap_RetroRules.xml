@@ -1,7 +1,7 @@
 <tool id="retrorules" name="RetroRules" version="0.1">
   <description>Generate RetroPath2.0 reaction rules</description>
   <requirements>
-    <container type="docker">brsynth/retrorules-standalone</container>
+    <container type="docker">brsynth/retrorules-standalone:v2</container>
   </requirements>
   <stdio>
     <regex match="WARNING:" level="warning" />
