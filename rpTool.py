@@ -17,10 +17,22 @@ import tarfile
 import tempfile
 
 
-## Parse the input file and return the reactions rules at the appropriate diameters
-#
-#
 def passRules(output, rule_type='all', diameters=[2,4,6,8,10,12,14,16], output_format='csv'):
+    """Parse the input file and return the reactions rules at the appropriate diameters
+
+    :param output: Path to the output file
+    :param rule_type: The rule type to return. Valid options: all, forward, retro. (Default: all)
+    :param diameters: The diameters to return. Valid options: 2,4,6,8,10,12,14,16. (Default: [2,4,6,8,10,12,14,16])
+    :param output_format: The output format. Valid options: csv, tar. (Default: csv)
+
+    :type output: str 
+    :type rule_type: str
+    :type diameters: list
+    :type output_format: str
+
+    :rtype: bool
+    :return: Success or failure of the function
+    """
     rule_file = None
     if rule_type=='all':
         rule_file = '/home/rules_rall_rp2.csv' 
@@ -59,10 +71,29 @@ def passRules(output, rule_type='all', diameters=[2,4,6,8,10,12,14,16], output_f
     return True
 
 
-## Parse the rules if a user inputs it as a file
+## 
 #
 #
 def parseRules(rule_file, output, rule_type='all', diameters=[2,4,6,8,10,12,14,16], input_format='csv', output_format='csv'):
+    """Parse the rules if a user inputs it as a file
+
+    :param rule_file: Path to the rule file
+    :param output: Path to the output file
+    :param rule_type: The rule type to return. Valid options: all, forward, retro. (Default: all)
+    :param diameters: The diameters to return. Valid options: 2,4,6,8,10,12,14,16. (Default: [2,4,6,8,10,12,14,16])
+    :param intput_format: The input file format. Valid options: csv, tar. (Default: csv)
+    :param output_format: The output format. Valid options: csv, tar. (Default: csv)
+
+    :type rule_file: str 
+    :type output: str 
+    :type rule_type: str
+    :type diameters: list
+    :type input_format: str
+    :type output_format: str
+
+    :rtype: bool
+    :return: Success or failure of the function
+    """
     ##### create temp file to write ####
     with tempfile.TemporaryDirectory() as tmpOutputFolder:
         ##### parse the input ######

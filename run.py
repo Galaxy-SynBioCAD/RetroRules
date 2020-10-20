@@ -3,7 +3,7 @@
 Created on September 21 2019
 
 @author: Melchior du Lac
-@description: Extract the sink from an SBML into RP2 friendly format
+@description: Extract the reaction rules from input reactions or RetroRules file
 
 """
 import argparse
@@ -14,10 +14,26 @@ import shutil
 import docker
 
 
-##
-#
-#
 def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,12,14,16', rules_file='None', input_format='csv'):
+    """Parse the rules if a user inputs it as a file
+
+    :param output: Path to the output file
+    :param output_format: Format to the output
+    :param rule_type: The rule type to return. Valid options: all, forward, retro. (Default: all)
+    :param diameters: The diameters to return. Valid options: 2,4,6,8,10,12,14,16. (Default: '2,4,6,8,10,12,14,16')
+    :param rules_file: The input rules file (Default: None)
+    :param intput_format: The input file format. Valid options: csv, tar. (Default: csv)
+
+    :type output: str 
+    :type output_format: str 
+    :type rule_type: str
+    :type diameters: list
+    :type rules_file: str
+    :type input_format: str
+
+    :rtype: None
+    :return: None
+    """
     docker_client = docker.from_env()
     image_str = 'brsynth/retrorules-standalone:v2'
     try:
@@ -70,15 +86,17 @@ def main(output, output_format='tar', rule_type='retro', diameters='2,4,6,8,10,1
         container.wait()
         err = container.logs(stdout=False, stderr=True)
         err_str = err.decode('utf-8')
-        print(err_str)
-        if not 'ERROR' in err_str:
+        if 'ERROR' in err_str:
+            print(err_str)
+        elif 'WARNING' in err_str:
+            print(err_str)
+        if not os.path.exists(tmpOutputFolder+'/output.dat'):
+            print('ERROR: Cannot find the output file: '+str(tmpOutputFolder+'/output.dat'))
+        else:
             shutil.copy(tmpOutputFolder+'/output.dat', output)
         container.remove()
 
 
-##
-#
-#
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Python wrapper to add cofactors to generate rpSBML collection')
     parser.add_argument('-rule_type', type=str, default='all', choices=['all', 'forward', 'retro'])

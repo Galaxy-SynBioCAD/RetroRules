@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RetroRules’s Documentation &#8212; RetroRules v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="retrorules-s-documentation">
+<h1>RetroRules’s Documentation<a class="headerlink" href="#retrorules-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Welcome RetroRules’s documentation. This tool provides a docker that can be accessed using the command line interface for dynamically generating reaction rules file, from <a class="reference external" href="https://retrorules.org/">RetroRules</a> that is <a class="reference external" href="https://github.com/Galaxy-SynBioCAD/RetroPath2">RetroPath2.0</a> friendly.</p>
+<p>To build the docker, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker build -t brsynth/retrorules-standalone:v2 .
+</pre></div>
+</div>
+<p>To return the reaction rules, you can call the run function using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run.py -rule_type retro -output rules.tar -diameters <span class="m">2</span>,8 -output_format tar
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py class">
+<dt id="rpTool.passRules">
+<em class="property">class </em><code class="sig-prename descclassname">rpTool.</code><code class="sig-name descname">passRules</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">output</span></em>, <em class="sig-param"><span class="n">rule_type</span><span class="o">=</span><span class="default_value">'all'</span></em>, <em class="sig-param"><span class="n">diameters</span><span class="o">=</span><span class="default_value">[2, 4, 6, 8, 10, 12, 14, 16]</span></em>, <em class="sig-param"><span class="n">output_format</span><span class="o">=</span><span class="default_value">'csv'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rpTool.passRules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the input file and return the reactions rules at the appropriate diameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> (<em>str</em>) – Path to the output file</p></li>
+<li><p><strong>rule_type</strong> (<em>str</em>) – The rule type to return. Valid options: all, forward, retro. (Default: all)</p></li>
+<li><p><strong>diameters</strong> (<em>list</em>) – The diameters to return. Valid options: 2,4,6,8,10,12,14,16. (Default: [2,4,6,8,10,12,14,16])</p></li>
+<li><p><strong>output_format</strong> (<em>str</em>) – The output format. Valid options: csv, tar. (Default: csv)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Success or failure of the function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="rpTool.parseRules">
+<em class="property">class </em><code class="sig-prename descclassname">rpTool.</code><code class="sig-name descname">parseRules</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rule_file</span></em>, <em class="sig-param"><span class="n">output</span></em>, <em class="sig-param"><span class="n">rule_type</span><span class="o">=</span><span class="default_value">'all'</span></em>, <em class="sig-param"><span class="n">diameters</span><span class="o">=</span><span class="default_value">[2, 4, 6, 8, 10, 12, 14, 16]</span></em>, <em class="sig-param"><span class="n">input_format</span><span class="o">=</span><span class="default_value">'csv'</span></em>, <em class="sig-param"><span class="n">output_format</span><span class="o">=</span><span class="default_value">'csv'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rpTool.parseRules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the rules if a user inputs it as a file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule_file</strong> (<em>str</em>) – Path to the rule file</p></li>
+<li><p><strong>output</strong> (<em>str</em>) – Path to the output file</p></li>
+<li><p><strong>rule_type</strong> (<em>str</em>) – The rule type to return. Valid options: all, forward, retro. (Default: all)</p></li>
+<li><p><strong>diameters</strong> (<em>list</em>) – The diameters to return. Valid options: 2,4,6,8,10,12,14,16. (Default: [2,4,6,8,10,12,14,16])</p></li>
+<li><p><strong>intput_format</strong> – The input file format. Valid options: csv, tar. (Default: csv)</p></li>
+<li><p><strong>output_format</strong> (<em>str</em>) – The output format. Valid options: csv, tar. (Default: csv)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Success or failure of the function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="run.main">
+<em class="property">class </em><code class="sig-prename descclassname">run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">output</span></em>, <em class="sig-param"><span class="n">output_format</span><span class="o">=</span><span class="default_value">'tar'</span></em>, <em class="sig-param"><span class="n">rule_type</span><span class="o">=</span><span class="default_value">'retro'</span></em>, <em class="sig-param"><span class="n">diameters</span><span class="o">=</span><span class="default_value">'2,4,6,8,10,12,14,16'</span></em>, <em class="sig-param"><span class="n">rules_file</span><span class="o">=</span><span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">input_format</span><span class="o">=</span><span class="default_value">'csv'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#run.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the rules if a user inputs it as a file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> (<em>str</em>) – Path to the output file</p></li>
+<li><p><strong>output_format</strong> (<em>str</em>) – Format to the output</p></li>
+<li><p><strong>rule_type</strong> (<em>str</em>) – The rule type to return. Valid options: all, forward, retro. (Default: all)</p></li>
+<li><p><strong>diameters</strong> (<em>list</em>) – The diameters to return. Valid options: 2,4,6,8,10,12,14,16. (Default: ‘2,4,6,8,10,12,14,16’)</p></li>
+<li><p><strong>rules_file</strong> (<em>str</em>) – The input rules file (Default: None)</p></li>
+<li><p><strong>intput_format</strong> – The input file format. Valid options: csv, tar. (Default: csv)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">RetroRules</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Melchior du Lac.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
