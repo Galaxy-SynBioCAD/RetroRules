@@ -42,7 +42,9 @@ API
     :members:
     :inherited-members:
 
-.. autoclass:: parseRules
+.. currentmodule:: rpToolServe
+
+.. autoclass:: passRules
     :show-inheritance:
     :members:
     :inherited-members:
